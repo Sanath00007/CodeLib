@@ -28,8 +28,10 @@ const Home = () => {
 
   return (
     <div className="container">
-      <div className="top-bar">
+      {/* FILTER BAR */}
+      <div className="filter-bar">
         <SearchBar search={search} setSearch={setSearch} />
+
         <select
           className="tag-filter"
           value={selectedTag}
@@ -41,6 +43,7 @@ const Home = () => {
         </select>
       </div>
 
+      {/* CARD GRID */}
       {filtered.length === 0 ? (
         <p className="empty">No snippets found</p>
       ) : (

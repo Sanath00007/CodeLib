@@ -1,20 +1,26 @@
 import Prism from "prismjs";
 import "prismjs/themes/prism-tomorrow.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const SnippetCard = ({ snippet, onOpen }) => {
+  const [copied, setCopied] = useState(false);
+
   useEffect(() => {
     Prism.highlightAll();
   }, []);
 
+  const handleCopy = async (e) => {
+    e.stopPropagation(); // ⛔ prevent opening modal
+    await navigator.clipboard.writeText(snippet.code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1200);
+  };
+
   return (
     <div className="card" onClick={() => onOpen(snippet)}>
-      {/* TITLE */}
       <h3 className="snippet-title">{snippet.title}</h3>
 
-      {/* META ROW */}
       <div className="snippet-meta">
-        {/* TAGS (now prominent like old language style) */}
         {snippet.tags?.length > 0 && (
           <div className="tags">
             {snippet.tags.map((tag, i) => (
@@ -25,19 +31,25 @@ const SnippetCard = ({ snippet, onOpen }) => {
           </div>
         )}
 
-        {/* LANGUAGE (now subtle like old tag style) */}
-        <span className="language-pill">
-          {snippet.language}
-        </span>
+        <span className="language-pill">{snippet.language}</span>
       </div>
 
-      {/* CODE PREVIEW */}
-      <div className="code-preview">
+      <div className="code-preview code-wrapper">
+        {/* COPY BUTTON (CARD) */}
+        <button
+          className="copy-btn"
+          onClick={handleCopy}
+          title="Copy code"
+        >
+          {copied ? "✓" : "⧉"}
+        </button>
+
         <pre>
           <code className={`language-${snippet.language.toLowerCase()}`}>
             {snippet.code}
           </code>
         </pre>
+
         <div className="fade-overlay" />
       </div>
     </div>

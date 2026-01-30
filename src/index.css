@@ -703,3 +703,86 @@ pre {
   border-radius: 999px;
   font-size: 12px;
 }
+/* ===== FILTER BAR ===== */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  margin-bottom: 28px;
+
+  background: rgba(2, 6, 23, 0.65);
+  border: 1px solid #1e293b;
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+}
+
+/* ===== CARD SPACING ===== */
+.card {
+  padding: 22px; /* 🔑 more breathing room */
+}
+
+.snippet-title {
+  margin-bottom: 14px; /* 🔑 title ↔ meta */
+}
+
+.snippet-meta {
+  margin-bottom: 18px; /* 🔑 meta ↔ code */
+}
+
+/* Tags row spacing */
+.tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+/* Code preview already good, just keep it separated */
+.code-preview {
+  margin-top: 4px;
+}
+.tag-filter {
+  height: 36px;
+  padding: 0 24px;
+
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 999px;
+
+  color: #e5e7eb;
+  font-size: 13px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+/* Hover */
+.tag-filter:hover {
+  border-color: #334155;
+}
+
+/* Focus (important for polish) */
+.tag-filter:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
+}
+/* === FILTER BAR ALIGNMENT FIX === */
+.filter-bar {
+  display: flex;
+  align-items: center;   /* vertical alignment */
+  gap: 14px;
+}
+
+/* normalize both controls */
+.filter-bar input,
+.filter-bar .tag-filter {
+  height: 40px;          /* 🔑 SAME HEIGHT */
+  display: inline-flex;  /* 🔑 SAME BOX MODEL */
+  align-items: center;
+}
+/* Search input normalization */
+.filter-bar input {
+  padding: 0 14px;
+  font-size: 14px;
+  line-height: 1;
+}

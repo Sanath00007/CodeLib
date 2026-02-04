@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSnippets } from "../context/SnippetContext";
-import { v4 as uuid } from "uuid";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 const AddSnippet = () => {
   const { addSnippet, updateSnippet } = useSnippets();
@@ -9,30 +8,22 @@ const AddSnippet = () => {
   const location = useLocation();
   const editingSnippet = location.state;
 
-  const [title, setTitle] = useState("");
-  const [language, setLanguage] = useState("");
-  const [code, setCode] = useState("");
-  const [tags, setTags] = useState("");
-
-  useEffect(() => {
-    if (editingSnippet) {
-      setTitle(editingSnippet.title);
-      setLanguage(editingSnippet.language);
-      setCode(editingSnippet.code);
-      setTags(editingSnippet.tags.join(", "));
-    }
-  }, [editingSnippet]);
+  const [title, setTitle] = useState(editingSnippet?.title || "");
+  const [language, setLanguage] = useState(editingSnippet?.language || "");
+  const [tags, setTags] = useState(editingSnippet?.tags?.join(", ") || "");
+  const [code, setCode] = useState(editingSnippet?.code || "");
+  const [notes, setNotes] = useState(editingSnippet?.notes || "");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const snippet = {
-      id: editingSnippet ? editingSnippet.id : uuid(),
+      id: editingSnippet?.id || Date.now(),
       title,
       language,
+      tags: tags.split(",").map((t) => t.trim()).filter(Boolean),
       code,
-      tags: tags.split(",").map((t) => t.trim()),
-      updatedAt: new Date().toISOString(),
+      notes, // ✅ NEW
     };
 
     editingSnippet ? updateSnippet(snippet) : addSnippet(snippet);
@@ -41,11 +32,47 @@ const AddSnippet = () => {
 
   return (
     <form className="form" onSubmit={handleSubmit}>
-      <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" required />
-      <input value={language} onChange={(e) => setLanguage(e.target.value)} placeholder="Language" required />
-      <input value={tags} onChange={(e) => setTags(e.target.value)} placeholder="Tags (comma separated)" />
-      <textarea value={code} onChange={(e) => setCode(e.target.value)} rows="8" placeholder="Code..." required />
-      <button>{editingSnippet ? "Update Snippet" : "Add Snippet"}</button>
+      <h2>{editingSnippet ? "Edit Snippet" : "Add Snippet"}</h2>
+
+      <input
+        placeholder="Title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        required
+      />
+
+      <input
+        placeholder="Language (e.g. Java, JS)"
+        value={language}
+        onChange={(e) => setLanguage(e.target.value)}
+        required
+      />
+
+      <input
+        placeholder="Tags (comma separated)"
+        value={tags}
+        onChange={(e) => setTags(e.target.value)}
+      />
+
+      <textarea
+        placeholder="Code"
+        rows={10}
+        value={code}
+        onChange={(e) => setCode(e.target.value)}
+        required
+      />
+
+      {/* ✅ NOTES */}
+      <textarea
+        placeholder="Notes (why this code exists, edge cases, usage tips)"
+        rows={5}
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+      />
+
+      <button type="submit">
+        {editingSnippet ? "Update Snippet" : "Save Snippet"}
+      </button>
     </form>
   );
 };

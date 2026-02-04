@@ -13,25 +13,12 @@ export const SnippetProvider = ({ children }) => {
   }, [snippets]);
 
   const addSnippet = (snippet) => {
-    setSnippets([...snippets, { ...snippet, versions: [] }]);
+    setSnippets([...snippets, snippet]);
   };
 
   const updateSnippet = (updated) => {
     setSnippets(
-      snippets.map((s) => {
-        if (s.id !== updated.id) return s;
-
-        const previousVersion = {
-          code: s.code,
-          notes: s.notes,
-          updatedAt: new Date().toISOString(),
-        };
-
-        return {
-          ...updated,
-          versions: [...(s.versions || []), previousVersion],
-        };
-      })
+      snippets.map((s) => (s.id === updated.id ? updated : s))
     );
   };
 

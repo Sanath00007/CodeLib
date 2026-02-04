@@ -18,12 +18,13 @@ const AddSnippet = () => {
     e.preventDefault();
 
     const snippet = {
+      ...editingSnippet,
       id: editingSnippet?.id || Date.now(),
       title,
       language,
       tags: tags.split(",").map((t) => t.trim()).filter(Boolean),
       code,
-      notes, // ✅ NEW
+      notes,
     };
 
     editingSnippet ? updateSnippet(snippet) : addSnippet(snippet);
@@ -42,7 +43,7 @@ const AddSnippet = () => {
       />
 
       <input
-        placeholder="Language (e.g. Java, JS)"
+        placeholder="Language"
         value={language}
         onChange={(e) => setLanguage(e.target.value)}
         required
@@ -62,9 +63,8 @@ const AddSnippet = () => {
         required
       />
 
-      {/* ✅ NOTES */}
       <textarea
-        placeholder="Notes (why this code exists, edge cases, usage tips)"
+        placeholder="Notes"
         rows={5}
         value={notes}
         onChange={(e) => setNotes(e.target.value)}

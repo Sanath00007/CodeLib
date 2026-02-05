@@ -12,10 +12,8 @@ const ShareSnippet = () => {
     if (!encoded) return;
 
     try {
-      // decode safely (mobile-friendly)
       const json = decodeURIComponent(escape(atob(encoded)));
-      const decoded = JSON.parse(json);
-      setSnippet(decoded);
+      setSnippet(JSON.parse(json));
       Prism.highlightAll();
     } catch {
       setSnippet(null);

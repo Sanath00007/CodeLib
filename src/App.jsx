@@ -3,7 +3,6 @@ import { SnippetProvider } from "./context/SnippetContext";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import AddSnippet from "./pages/AddSnippet";
-import ShareSnippet from "./pages/ShareSnippet";
 
 function App() {
   return (
@@ -13,7 +12,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/add" element={<AddSnippet />} />
-          <Route path="/share" element={<ShareSnippet />} />
         </Routes>
       </BrowserRouter>
     </SnippetProvider>
